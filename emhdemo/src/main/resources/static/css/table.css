@@ -1,0 +1,15 @@
+.table-striped{
+  thead {
+    tr{
+      th{
+       background-color: #f39c12;
+       border-color:#e67e22;
+      }
+    }
+  }
+}
+
+.table-responsive .table tr th {
+	background-color: #eea08c; 
+    border-color:#000000;
+}

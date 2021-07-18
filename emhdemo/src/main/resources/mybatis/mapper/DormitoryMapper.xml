@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DormitoryMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.common.domain.Dormitory">
+    <id column="did" jdbcType="INTEGER" property="did" />
+    <id column="bid" jdbcType="INTEGER" property="bid" />
+    <result column="dname" jdbcType="VARCHAR" property="dname" />
+    <result column="beds" jdbcType="INTEGER" property="beds" />
+    <result column="fee" jdbcType="REAL" property="fee" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    did, bid, dname, beds, fee
+  </sql>
+  <select id="selectByExample" parameterType="com.example.demo.common.domain.DormitoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dormitory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.example.demo.common.domain.DormitoryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dormitory
+    where did = #{did,jdbcType=INTEGER}
+      and bid = #{bid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.example.demo.common.domain.DormitoryKey">
+    delete from dormitory
+    where did = #{did,jdbcType=INTEGER}
+    and bid = #{bid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.common.domain.DormitoryExample">
+    delete from dormitory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.common.domain.Dormitory">
+    insert into dormitory (did, bid, dname, 
+      beds, fee)
+    values (#{did,jdbcType=INTEGER}, #{bid,jdbcType=INTEGER}, #{dname,jdbcType=VARCHAR}, 
+      #{beds,jdbcType=INTEGER}, #{fee,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.common.domain.Dormitory">
+    insert into dormitory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="did != null">
+        did,
+      </if>
+      <if test="bid != null">
+        bid,
+      </if>
+      <if test="dname != null">
+        dname,
+      </if>
+      <if test="beds != null">
+        beds,
+      </if>
+      <if test="fee != null">
+        fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="did != null">
+        #{did,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null">
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="dname != null">
+        #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="beds != null">
+        #{beds,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.common.domain.DormitoryExample" resultType="java.lang.Long">
+    select count(*) from dormitory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dormitory
+    <set>
+      <if test="record.did != null">
+        did = #{record.did,jdbcType=INTEGER},
+      </if>
+      <if test="record.bid != null">
+        bid = #{record.bid,jdbcType=INTEGER},
+      </if>
+      <if test="record.dname != null">
+        dname = #{record.dname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beds != null">
+        beds = #{record.beds,jdbcType=INTEGER},
+      </if>
+      <if test="record.fee != null">
+        fee = #{record.fee,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dormitory
+    set did = #{record.did,jdbcType=INTEGER},
+      bid = #{record.bid,jdbcType=INTEGER},
+      dname = #{record.dname,jdbcType=VARCHAR},
+      beds = #{record.beds,jdbcType=INTEGER},
+      fee = #{record.fee,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.common.domain.Dormitory">
+    update dormitory
+    <set>
+      <if test="dname != null">
+        dname = #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="beds != null">
+        beds = #{beds,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=REAL},
+      </if>
+    </set>
+    where did = #{did,jdbcType=INTEGER}
+      and bid = #{bid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.common.domain.Dormitory">
+    update dormitory
+    set dname = #{dname,jdbcType=VARCHAR},
+      beds = #{beds,jdbcType=INTEGER},
+      fee = #{fee,jdbcType=REAL}
+    where did = #{did,jdbcType=INTEGER}
+      and bid = #{bid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>宿舍信息</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/css/table.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    
+</head>
+<body th:style="'background:url('+@{/img/bg1.jpg}+');'">
+<div th:replace="~{commons/stuCommons::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/stuCommons::sidebar(active='stuDormitoryList.html')}"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <!--<h2><a class="btn btn-sm btn-success" th:href="@{stus}">添加</a></h2>-->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>宿舍号</th>
+                        <th>学号</th>
+                        <th>学生姓名</th>
+                        <th>专业</th>
+						<th>联系电话</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <span th:each="dormitory:${dormitories}">
+                        <tr th:each="student:${dormitory.getStudents()}">
+                        <td th:text="${dormitory.getDid()}"></td>
+                        <td th:text="${student.getSid()}"></td>
+                        <td th:text="${student.getName()}"></td>
+                        <td th:text="${student.getMajor()}"></td>
+						<td th:text="${student.getTel()}"></td>
+                        </tr>
+                    </span>
+
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+				<p>宿舍余额：[[${current.getFee()}]]</p>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

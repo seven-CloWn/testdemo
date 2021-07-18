@@ -1,0 +1,143 @@
+var option = {
+		
+		title:{
+			text:'人员组成比例',
+			left:'center',
+			top:20,
+			textStyle:{
+				fontSize:26
+			}
+		},
+		
+		tooltip:{
+             trigger:'item',
+             formatter:"{a} <br/>{b}:{d}%"
+        },
+		
+		
+		legend:{
+			textStyle:{
+				fontSize:11
+			}
+		},
+		
+
+            series : [
+        {
+            name: '人员比例',
+            type: 'pie',    // 设置图表类型为饼图
+            radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+            data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                {	
+					value:3, 
+					name:'管理员',
+					itemStyle:{
+                        normal:{
+                            color:'#ed2f6a',
+                            shadowBlur:'90',
+                            shadowColor:'rgba(0,0,0,0.5)',
+                        }
+                    },
+					label:{fontSize:18}
+				},
+                {	
+					value:12, 
+					name:'男生',
+					itemStyle:{
+						normal:{
+                            color:'#1ba784',
+                            shadowBlur:'90',
+                            shadowColor:'rgba(0,0,0,0.5)',
+                        }
+					},
+					label:{fontSize:18}
+				},
+                {
+					value:15, 
+					name:'女生',
+					itemStyle:{
+						normal:{
+                            color:'#fbb957',
+                            shadowBlur:'90',
+                            shadowColor:'rgba(0,0,0,0.5)',
+                        }
+					},
+					label:{fontSize:18}
+				}
+            ]
+			
+        }
+        ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+		
+		
+		
+		
+		
+		
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var option = {
+        title : {
+            text: '某站点销售情况',
+            subtext: '纯属虚构',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:(function () {
+
+                    var datas = [];
+                    $.ajax({
+                        type:"POST",
+                        url:"/project",
+                        dataType:"json",
+                        async:false,
+                        success:function (result) {
+
+                            for (var i = 0; i < result.length; i++){
+                                datas.push({
+                                    "value":result[i].nums, "name":result[i].productName
+                                })
+                            }
+
+                        }
+                    })
+                    return datas;
+
+                })(),
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+
+
+
+
+data: [{value:2, itemStyle:{color:'#ed556a'}}, 11, {value:4, itemStyle:{color:'#41ae3c'}}, {value:3, itemStyle:{color:'#e7a23f'}}]
+
+{"No": "路飞", "boy": "100", "girl": "男", "boypercent": "男", "girlpercent": "男"}

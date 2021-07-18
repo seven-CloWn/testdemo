@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>修改学生信息</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/stuinfo.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+
+	<script type="text/javascript" th:inline="javascript">
+        var msg = [[${msg}]];
+        if(msg != null && msg != '' && msg != undefined && msg != 'null'){
+			alert(msg);
+		}
+    </script>
+
+</head>
+
+<body th:style="'background:url('+@{/img/bg1.jpg}+');'">
+<div th:replace="~{commons/commons::topbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar(active='list.html')}"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+		<h1 class = "title left">修改学生个人信息</h1>
+            <form th:action="@{/updateStu}" method="post">
+                <div class="form-group you">
+                    <label class="sex">学号</label>
+                    <input th:value="${stu.getSid()}" type="text" name="sid" class="form-control kuang" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">姓名</label>
+                    <input th:value="${stu.getName()}" type="text" name="name" class="form-control kuang" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">宿舍号</label>
+                    <input th:value="${stu.getDid()}" type="text" name="did" class="form-control kuang" required="required">
+                </div>
+				<div class="form-group you">
+                    <label class="sex">专业</label>
+                    <input th:value="${stu.getMajor()}" type="text" name="major" class="form-control kuang">
+                </div>
+				<div class="form-group you">
+                    <label class="sex">电话</label>
+                    <input th:value="${stu.getTel()}" type="text" name="tel" class="form-control kuang">
+                </div>
+                <button type="submit" class="btn btn-primary you2">保存</button>
+            </form>
+        </main>
+    </div>
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.NoticeMapper">
+
+    <resultMap id="noticeMap" type="com.example.demo.pojo.Notice">
+        <id property="tid" column="tid"/>
+        <result property="title" column="title"/>
+        <result property="date" column="date"/>
+
+        <association property="manager" column="mid" javaType="com.example.demo.pojo.Manager">
+            <id property="did" column="did"/>
+            <result property="name" column="mname"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllNotices" resultMap="noticeMap">
+        SELECT a.tid, a.title,m.mname,a.date
+        FROM announcement a, manager m
+        WHERE a.mid = m.mid
+    </select>
+
+    <select id="findNoticeById" parameterType="Integer" resultType="com.example.demo.pojo.Notice">
+        SELECT *
+        FROM announcement
+        WHERE tid = #{tid}
+    </select>
+
+    <update id="updateNotice" parameterType="com.example.demo.pojo.Notice">
+        UPDATE announcement
+        SET tid = #{tid},title = #{title},mid = #{mid},content=#{content},date = #{date}
+        WHERE tid = #{tid}
+    </update>
+
+    <delete id="delNoticeById" parameterType="Integer">
+        DELETE
+        FROM announcement
+        WHERE tid = #{tid}
+    </delete>
+
+    <insert id="addNotice" parameterType="com.example.demo.pojo.Notice">
+        INSERT INTO
+        announcement(tid,title,mid,content,date)
+        VALUES
+        (#{tid},#{title},#{mid},#{content},#{date})
+    </insert>
+
+</mapper>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>修改信息</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/css/stuinfo2.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    
+</head>
+
+<body th:style="'background:url('+@{/img/bg1.jpg}+');'">
+<div th:replace="~{commons/stuCommons::topbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/stuCommons::sidebar(active='updateRepair.html')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+		<h1 class = "title left">信息反馈</h1>
+            <form th:action="@{/stuUpdateRepair}" method="post">
+                <div class="form-group you">
+                    <label class="sex">编号</label>
+                    <input th:value="${repair.getRid()}" type="text" name="rid" class="form-control kuang" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">更新与反馈</label>
+                    <!--input th:value="${repair.getInfo()}" type="text" name="info" class="form-control kuang"-->
+					<textarea rows="4" cols="50" name="info" class="form-control kuang">[[${repair.getInfo()}]]</textarea>
+                </div>
+                <div class="form-group you">
+                    <label class="sex">当前状态</label>
+                    <input th:value="${repair.getState()}" type="text" name="state" class="form-control kuang" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">更新日期</label>
+                    <input th:value="${#dates.format(repair.getDate(),'yyyy-MM-dd')}" type="text" name="date" class="form-control kuang">
+                </div>
+                <button type="submit" class="btn btn-primary you2">保存</button>
+            </form>
+        </main>
+    </div>
+</div>
+
+</body>
+
+</html>

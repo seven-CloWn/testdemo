@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.StudentsMapper">
+
+    <resultMap id="stuBedsMap" type="com.example.demo.pojo.Student">
+        <id property="sid" column="sid"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="did" column="did"/>
+        <result property="major" column="major"/>
+        <result property="tel" column="tel"/>
+
+        <association property="dormitory" column="did" javaType="com.example.demo.pojo.Dormitory">
+            <id property="did" column="did"/>
+            <result property="dName" column="dname"/>
+            <!--<result property="beds" column="beds"></result>-->
+        </association>
+
+    </resultMap>
+
+    <select id="findAllStu" resultMap="stuBedsMap">
+        SELECT s.sid,s.`name`,s.gender,s.did,d.dname,s.major,s.tel
+        FROM student s,dormitory d
+        WHERE s.did = d.did
+    </select>
+
+    <select id="findStuById" resultType="com.example.demo.pojo.Student" parameterType="Integer">
+        SELECT *
+        FROM student
+        WHERE
+        sid = #{sid}
+    </select>
+
+    <select id="findLikely" resultMap="stuBedsMap" parameterType="Integer">
+        SELECT s.sid,s.`name`,s.gender,s.did,d.dname
+        FROM student s,dormitory d
+        WHERE s.did = d.did AND s.sid like '%${sid}%'
+    </select>
+
+    <insert id="addStu" parameterType="com.example.demo.pojo.Student">
+        INSERT INTO
+        student(sid,name,gender,did,age,major,tel)
+        VALUES
+        (#{sid},#{name},#{gender},#{did},#{age},#{major},#{tel})
+    </insert>
+
+    <update id="updateStu" parameterType="com.example.demo.pojo.Student">
+        UPDATE student
+        SET major=#{major},tel=#{tel},did=#{did}
+        WHERE sid = #{sid}
+    </update>
+
+    <delete id="delStuById" parameterType="Integer">
+        DELETE FROM student
+        WHERE sid = #{sid}
+    </delete>
+
+    <select id="checkLogin" resultType="String">
+        SELECT mname
+        FROM manager
+        WHERE mid = #{arg0} and password = #{arg1}
+    </select>
+
+    <select id="findDidBySid" parameterType="Integer" resultType="Integer">
+        SELECT did
+        FROM student
+        WHERE sid = #{sid}
+    </select>
+
+    <select id="countBeds" parameterType="Integer" resultType="Integer">
+        SELECT COUNT(*)
+        FROM student
+        WHERE did = #{did}
+    </select>
+</mapper>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>修改宿舍</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+	<link th:href="@{/css/stuinfo2.css}" rel="stylesheet">
+
+	<script type="text/javascript" th:inline="javascript">
+        var info = [[${msg}]];
+        if(info != null && info != '' && info != undefined && info != 'null'){
+            alert(info);
+        }
+    </script>
+
+</head>
+
+<body th:style="'background:url('+@{/img/bg1.jpg}+');'">
+<div th:replace="~{commons/commons::topbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar(active='updateDormitory.html')}"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+			<h1 class = "title left">修改宿舍信息</h1>
+            <form th:action="@{/updateDormitory}" method="post">
+                <div class="form-group you">
+                    <label class="sex">宿舍编号</label>
+                    <input th:value="${dormitory.getDid()}" type="text" name="did" class="form-control kuang" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">宿舍楼号</label><br>
+                    <input th:value="${dormitory.getBid()}" type="text" name="bid" class="form-control kuang" placeholder="请输入宿舍楼号" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">所在宿舍楼</label>
+                    <input th:value="${dormitory.getDname()}" type="text" name="dname" class="form-control kuang" placeholder="请输入所在宿舍楼">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">床位数量</label>
+                    <input th:value="${dormitory.getBeds()}" type="text" name="beds" class="form-control kuang" placeholder="请输入床位数量">
+                </div>
+				<div class="form-group you">
+                    <label class="sex">余额</label>
+                    <input th:value="${dormitory.getFee()}" type="text" name="fee" class="form-control kuang" placeholder="请输入最新余额" required="required">
+                </div>
+                <button type="submit" class="btn btn-primary you2">保存</button>
+            </form>
+        </main>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.RepairsMapper">
+
+    <resultMap id="dormitoryRepairsMap" type="com.example.demo.pojo.Dormitory">
+
+        <id property="did" column="did"/>
+        <result property="dName" column="dname"/>
+
+        <collection property="repairs" ofType="com.example.demo.pojo.Repair">
+            <id property="rid" column="rid"/>
+            <result property="info" column="info"/>
+            <result property="state" column="state"/>
+            <result property="date" column="date"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findAllRepairs" resultType="com.example.demo.pojo.Repair">
+        SELECT *
+        FROM repairs
+    </select>
+    <select id="findRepairByDid" parameterType="Integer" resultMap="dormitoryRepairsMap">
+        SELECT d.did,r.rid,r.info,r.state,r.date
+        FROM repairs r
+        LEFT OUTER JOIN  dormitory d
+        ON r.did = d.did
+        WHERE d.did = #{did}
+    </select>
+
+    <select id="adminFindRepairByDid" resultMap="dormitoryRepairsMap">
+        SELECT d.did,r.rid,r.info,r.state,r.date
+        FROM repairs r
+        LEFT OUTER JOIN  dormitory d
+        ON r.did = d.did
+        ORDER BY r.date DESC
+    </select>
+
+    <select id="findRepairById" parameterType="Integer" resultType="com.example.demo.pojo.Repair">
+        SELECT *
+        FROM repairs
+        WHERE rid = #{rid}
+    </select>
+
+    <update id="updateRepair" parameterType="com.example.demo.pojo.Repair">
+        UPDATE repairs
+        SET rid = #{rid},info = #{info},state = #{state},date=#{date},date = #{date}
+        WHERE rid = #{rid}
+    </update>
+
+    <update id="stuUpdateRepair" parameterType="com.example.demo.pojo.Repair">
+        UPDATE repairs
+        SET rid = #{rid},info = #{info},date = #{date}
+        WHERE rid = #{rid}
+    </update>
+
+    <delete id="delRepairById" parameterType="Integer">
+        DELETE
+        FROM repairs
+        WHERE rid = #{rid}
+    </delete>
+
+    <insert id="addRepair" parameterType="com.example.demo.pojo.Repair">
+        INSERT INTO
+        repairs(did,rid,info,date)
+        VALUES
+        (#{did},#{rid},#{info},#{date})
+    </insert>
+
+</mapper>

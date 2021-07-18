@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>维修信息修改</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/css/stuinfo3.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+   
+</head>
+
+<body th:style="'background:url('+@{/img/bg1.jpg}+');'">
+<div th:replace="~{commons/commons::topbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar(active='updateRepair.html')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+		<h1 class = "title left">报修&缴费处理</h1>
+            <form th:action="@{/updateRepair}" method="post">
+                <div class="form-group you">
+                    <label class="sex">编号</label>
+                    <input th:value="${repair.getRid()}" type="text" name="rid" class="form-control kuang" readonly="true">
+                </div>
+                <div class="form-group you">
+                    <label class="sex">维修内容</label>
+                    <input th:value="${repair.getInfo()}" type="text" name="info" class="form-control kuang">
+                </div>
+                <div class="form-group you">
+                    <label class="sex2">维修状态</label>
+                    <!--input th:value="${repair.getState()}" type="text" name="state" class="form-control" required="required"-->
+					<div class="form-check form-check-inline big">
+                        <input class="form-check-input yihang xiao" type="radio" name="state" value="待处理" checked="checked">
+                        <label class="form-check-label yihang">待处理</label>
+                    </div>
+                    <div class="form-check form-check-inline big">
+                        <input class="form-check-input yihang xiao" type="radio" name="state" value="处理完成">
+                        <label class="form-check-label yihang">处理完成</label>
+                    </div>
+                </div>
+                <div class="form-group you">
+                    <label class="sex">更新日期</label>
+                    <input th:value="${#dates.format(repair.getDate(),'yyyy-MM-dd')}" type="text" name="date" class="form-control kuang" required="required">
+                </div>
+                <button type="submit" class="btn btn-primary you2">保存</button>
+            </form>
+        </main>
+    </div>
+</div>
+
+</body>
+
+</html>

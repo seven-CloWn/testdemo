@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DormitorysMapper">
+
+    <resultMap id="dormitoryStudentsMap" type="com.example.demo.pojo.Dormitory">
+
+        <id property="did" column="did"/>
+        <result property="dName" column="dname"/>
+        <result property="beds" column="beds"/>
+
+        <collection property="students" ofType="com.example.demo.pojo.Student">
+            <id property="sid" column="sid"/>
+            <result property="name" column="name"/>
+            <result property="major" column="major"/>
+            <result property="tel" column="tel"/>
+        </collection>
+
+    </resultMap>
+
+
+
+    <select id="findAllDormitories" resultType="com.example.demo.pojo.Dormitory">
+        SELECT *
+        FROM dormitory
+    </select>
+
+    <select id="findAllStudentsByDormitory" parameterType="Integer" resultMap="dormitoryStudentsMap">
+        SELECT d.did,s.sid,s.`name`,s.major, s.tel
+        FROM student s
+        LEFT OUTER JOIN  dormitory d
+        ON s.did = d.did
+        WHERE d.did = #{did}
+--         ORDER BY DESC
+    </select>
+
+    <select id="adminFindAllStudentsByDormitory" resultMap="dormitoryStudentsMap">
+        SELECT d.did,s.sid,s.`name`,s.gender
+        FROM student s
+        LEFT OUTER JOIN  dormitory d
+        ON s.did = d.did
+    </select>
+
+
+
+</mapper>

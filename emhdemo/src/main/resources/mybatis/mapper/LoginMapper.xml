@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.LoginMapper">
+
+    <select id="checkAdminLogin" resultType="String">
+        SELECT mname
+        FROM manager
+        WHERE mid = #{mid} and password = #{password}
+    </select>
+
+    <select id="checkStuLogin" resultType="String">
+        SELECT name
+        FROM student
+        WHERE sid = #{sid} and password = #{password}
+    </select>
+</mapper>

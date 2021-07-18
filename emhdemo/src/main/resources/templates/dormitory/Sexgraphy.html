@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>添加宿舍</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+	<script type="text/javascript" th:src="@{/js/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/sheetJson.js}"></script>
+
+</head>
+
+<body th:style="'background:url('+@{/img/bg1.jpg}+');'">
+<div th:replace="~{commons/commons::topbar}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar(active='Dormgrahy.html')}"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+		<div id="main" style="width: 800px;height:600px;"></div>
+		<button class="download">详细数据导出</button>
+		<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+		var option = {
+		
+		title:{
+			text:'人员组成比例',
+			left:'center',
+			top:20,
+			textStyle:{
+				fontSize:26
+			}
+		},
+		
+		tooltip:{
+             trigger:'item',
+             formatter:"{a} <br/>{b}:{d}%"
+        },
+		legend:{
+			orient:'vertical',
+			left:'left',
+			textStyle:{
+				fontSize:15
+			}
+		},
+
+        series:[
+            {
+            name: '人员比例',
+            type: 'pie',    // 设置图表类型为饼图
+            radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+			
+            data:(function(){
+                    var datas = [];
+                    $.ajax({
+                        type:"POST",
+                        url:"/SexJosn",
+                        dataType:"json",
+                        async:false,
+                        success:function (result) {
+
+                            for (var i = 0; i < result.length; i++){
+                                datas.push({
+                                    "value":result[i].number, "name":result[i].name
+                                })
+                            }
+
+                        }
+                    })
+                    return datas;
+
+                })(),
+				
+			label:{fontSize:18},
+			color:['#2486b9','#ed556a']
+        }
+        ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+		
+		
+		window.onload = function () {
+        var download = document.querySelector('.download');
+        var sheetName = {
+            No: '编号',
+            boy: '男生',
+            girl: '女生',
+			boypercent:'男生比例',
+			girlpercent:'女生比例'
+        };
+
+        // 下载
+        download.onclick = function () {
+            var datas = [];
+			$.ajax({
+                        type:"POST",
+                        url:"/SexJosn",
+                        dataType:"json",
+                        async:false,
+                        success:function (res) {
+
+                                datas.push({
+                                    "No":"1", "boy":res[0].number, 
+									"girl":res[1].number,
+									"boypercent":res[0].number/(res[0].number+res[1].number),
+									"girlpercent":res[1].number/(res[0].number+res[1].number)
+                                })
+
+                        }
+                    })
+            console.log(datas); //JSON数据
+            var workbook = sheetJson.toSheet({
+                sheetName: sheetName,
+                datas: datas
+            });
+            console.log(workbook);
+            sheetJson.downloadExl(workbook)
+        }
+    }
+        </script>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script>
+<script type="text/javascript" src="asserts/js/popper.min.js"></script>
+<script type="text/javascript" src="asserts/js/bootstrap.min.js"></script>
+
+<!-- Graphs -->
+
+
+</body>
+
+</html>
